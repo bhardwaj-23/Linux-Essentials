@@ -1142,3 +1142,166 @@ sed -i -e ‘/arnold/a "+++++++++++++++++++++" ’ -e ‘/arnold/i "------------
 ```
 
 Using -i will save the changes in the file
+
+---
+
+# # strings
+
+The `strings` command in Linux is used to extract printable strings from binary files. These strings are sequences of printable characters that are at least 4 characters long (by default). This command is often used to analyze binary files, such as executables, to find human-readable text like error messages, hardcoded paths, or other embedded strings.
+
+   strings Command
+
+   Purpose → Finds the printable strings in a file.
+
+## Syntax
+
+strings [ -a ] [ - ] [ -o ] [ -t Format ] [ -n Number ] [ -Number ] [ File ... ]
+
+**Description**
+
+The **strings** command looks for printable strings in a file. A string is any sequence of 4 or more printable characters that end with a new-line or a null character. The **strings** command is useful for identifying random object files.
+
+## Flags
+
+| **Item** | **Description** |
+| --- | --- |
+| **-a** or **-** | Searches the entire file, not just the data section, for printable strings. If this flag is omitted, the **strings** command only looks in the initialized data space of object files. |
+| **-n** *Number* | Specifies a minimum string length other than the default of 4 characters. The maximum value of a string length is 4096. This flag is identical to the **-***Number* flag. |
+| **-o** | Lists each string preceded by its octal offset in the file. This flag is identical to the **-t o** flag. |
+| **-t** *Format* | Lists each string preceded by its offset from the start of the file. The format is dependent on the character used as the *Format* variable.**d**Writes the offset in decimal.**o**Writes the offset in octal.**x**Writes the offset in hexadecimal.
+“**Note:** When the **-o** and the **-t** *Format* flags are defined more than once on a command line, the last flag specified controls the behavior of the **strings** command.” |
+| **-***Number* | Specifies a minimum string length other than the default of 4 characters. The maximum value of a string length is 4096. This flag is identical to the **-n** *Number* flag. |
+| *File* | Binary or object file to be searched. |
+
+### Basic Syntax
+
+### **strings [options] filename**
+
+### Common Options (Switches) with Examples
+
+1. **`a` or `-all`**
+    - Scan the entire file, not just the data section.
+    
+    ```bash
+    strings -a /bin/ls
+    ```
+    
+2. **`f` or `-print-file-name`**
+    - Print the name of the file before each string.
+    
+    ```bash
+    strings -f /bin/ls
+    ```
+    
+3. **`n <length>` or `-bytes=<length>`**
+    - Set the minimum string length to `length` (default is 4).
+    
+    ```bash
+    strings -n 10 /bin/ls
+    ```
+    
+4. **`t <format>` or `-radix=<format>`**
+    - Print the offset of each string in the file. The format can be `d` (decimal), `o` (octal), or `x` (hexadecimal).
+    
+    ```bash
+    strings -t x /bin/ls
+    ```
+    
+5. **`e <encoding>` or `-encoding=<encoding>`**
+    - Specify the character encoding of the strings. Options include `s` (7-bit ASCII), `S` (8-bit ASCII), `b` (16-bit big-endian), `l` (16-bit little-endian), `B` (32-bit big-endian), and `L` (32-bit little-endian).
+    
+    ```bash
+    strings -e S /bin/ls
+    ```
+    
+6. **`o`**
+    - Equivalent to `t o` (print offset in octal).
+    
+    ```bash
+    strings -o /bin/ls
+    ```
+    
+7. **`d` or `-data`**
+    - Only scan the data section of the file.
+    
+    ```bash
+    strings -d /bin/ls
+    ```
+    
+8. **`h` or `-help`**
+    - Display help information and exit.
+    
+    ```bash
+    strings -h
+    ```
+    
+9. **`v` or `-version`**
+    - Display version information and exit.
+    
+    ```bash
+    strings -v
+    ```
+    
+10. **`T <bfdname>` or `-target=<bfdname>`**
+    - Specify the binary file format.
+    
+    ```bash
+    strings -T elf64-x86-64 /bin/ls
+    ```
+    
+11. **`w` or `-include-all-whitespace`**
+    - Include all whitespace characters in the output.
+    
+    ```bash
+    strings -w /bin/ls
+    ```
+    
+12. **`s` or `-output-separator=<string>`**
+    - Use `string` as the separator between strings.
+    
+    ```bash
+    strings -s " | " /bin/ls
+    ```
+    
+
+### Example Usage
+
+1. **Extract strings from a binary file:**
+    
+    ```bash
+    strings /bin/ls
+    ```
+    
+2. **Extract strings with a minimum length of 10 characters:**
+    
+    ```bash
+    strings -n 10 /bin/ls
+    ```
+    
+3. **Extract strings and print the file name before each string:**
+    
+    ```bash
+    strings -f /bin/ls
+    ```
+    
+4. **Extract strings and print the offset in hexadecimal:**
+    
+    ```bash
+    strings -t x /bin/ls
+    ```
+    
+5. **Extract strings from a binary file using 16-bit little-endian encoding:**
+    
+    ```bash
+    strings -e l /bin/ls
+    ```
+    
+
+### Notes
+
+- The `strings` command is particularly useful for reverse engineering, debugging, and analyzing binary files.
+- The default behavior is to scan for strings that are at least 4 characters long, but this can be adjusted with the `n` option.
+
+By using these options, you can tailor the `strings` command to your specific needs when analyzing binary files.
+
+---
